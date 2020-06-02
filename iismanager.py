@@ -23,7 +23,7 @@ class IisManager:
         return self.uri + part
 
     def getServices(self):
-        return requests.get(self.getUrl("api/webserver/websites"), self.getHeaders()).json()
+        return requests.get(self.getUrl("api/webserver/websites"), , headers=self.getHeaders(), verify=False).json()
 
     def getServiceId(self, name):
         services = self.getServices()
@@ -34,25 +34,26 @@ class IisManager:
     def stopService(self, name):
         id = self.getServiceId(name)
         requests.patch(self.getUrl(
-            "api/webserver/websites/"+id), json=self.stopped)
+            "api/webserver/websites/"+id), json=self.stopped, headers=self.getHeaders(), verify=False)
 
     def startService(self, name):
         id = self.getServiceId(name)
         requests.patch(self.getUrl(
-            "api/webserver/websites/"+id), json=self.started)
+            "api/webserver/websites/"+id), json=self.started, headers=self.getHeaders(), verify=False)
 
     def getAppPools(self):
-        return requests.get(self.getUrl("api/webserver/application-pools"), self.getHeaders()).json()
+        return requests.get(self.getUrl("api/webserver/application-pools"), headers=self.getHeaders(), verify=False).json()
 
     def stopAppPool(self, name):
         id = self.getAppPools()
         requests.patch(self.getUrl(
-            "api/webserver/application-pools/"+id), json=self.stopped)
+            "api/webserver/application-pools/"+id), json=self.stopped, headers=self.getHeaders(), verify=False)
 
     def startAppPool(self, name):
         id = self.getAppPools()
         requests.patch(self.getUrl(
-            "api/webserver/application-pools/"+id), json=self.started)
+            "api/webserver/application-pools/"+id), json=self.started, headers=self.getHeaders(), verify=False)
+
 
 def main(argv):
     if len(argv) <= 5:
